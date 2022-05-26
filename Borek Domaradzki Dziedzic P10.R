@@ -21,7 +21,7 @@ challenger_raw  <- read.csv("TFT_Challenger_MatchData.csv")
 #zamiast 1:56 i osobna kolumna na id
 
 items <- read.csv("items_id.csv")
-items <- items[,1]
+items <- as.data.frame(items$item_id, row.names = rownames(items))
 
 
 # Stefan koniec zmian
