@@ -13,7 +13,15 @@ master_raw      <- read.csv("TFT_Master_MatchData.csv")
 grandmaster_raw <- read.csv("TFT_Grandmaster_MatchData.csv")
 challenger_raw  <- read.csv("TFT_Challenger_MatchData.csv")
 
+
+#plik "itmes_id.csv" uprzednio oczyszczony poza r, baza byla produktem skryptu python
+#wiec nie bylo sensu oczyszczac jej w R
+
+#do itemow odwolywac sie po ich nr wiersza bo ten jest rowny numeru id
+#zamiast 1:56 i osobna kolumna na id
+
 items <- read.csv("items_id.csv")
 items <- items[,1]
+
 
 # Stefan koniec zmian
