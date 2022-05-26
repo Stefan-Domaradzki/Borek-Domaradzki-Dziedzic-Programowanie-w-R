@@ -10,4 +10,4 @@ list.files()
 
 
 
-#koniec zmian----
+#koniec zmian----111
