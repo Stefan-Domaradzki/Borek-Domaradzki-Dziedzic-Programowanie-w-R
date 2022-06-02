@@ -95,4 +95,7 @@ challenger_champion_stars$star_list  <- stri_extract_all_regex(challenger_champi
                        
 # Stefan koniec zmian 
 
-
+# 02.06.2022 lukasz
+platinum_raw1 <- platinum_raw[(platinum_raw$combination)=="{}",]
+odsetek_afk <- nrow(platinum_raw1)/nrow(platinum_raw)
+#koniec zmian
