@@ -55,6 +55,44 @@ a.1$champion <- stri_extract_all_regex(a.1$champion, "\\[..\\]" | "\\[.\\]" )
 b.1 <- stri_trans_char('id.1', '1', as.character(items[1]))
 
 # Stefan koniec zmian 
+#02.06.22 Stefan
 
+#przygotowanie tabeli pod statystyke poziomow postaci
+
+platinum_champion_stars    <- platinum_raw[,c(1,5,8)]
+diamond_champion_stars     <- diamond_raw[,c(1,5,8)]
+master_champion_stars      <- master_raw[,c(1,5,8)]
+grandmaster_champion_stars <- grandmaster_raw[,c(1,5,8)]
+challenger_champion_stars  <- challenger_raw[,c(1,5,8)]
+
+platinum_champion_stars    <- platinum_champion_stars %>% add_column(champions_list = NA)
+diamond_champion_stars     <- diamond_champion_stars %>% add_column(champions_list = NA)
+master_champion_stars      <- master_champion_stars %>% add_column(champions_list = NA)
+grandmaster_champion_stars <- grandmaster_champion_stars %>% add_column(champions_list = NA)
+challenger_champion_stars  <- challenger_champion_stars %>% add_column(champions_list = NA)
+
+platinum_champion_stars    <- platinum_champion_stars %>% add_column(star_list = NA)
+diamond_champion_stars     <- diamond_champion_stars %>% add_column(star_list = NA)
+master_champion_stars      <- master_champion_stars %>% add_column(star_list = NA)
+grandmaster_champion_stars <- grandmaster_champion_stars %>% add_column(star_list = NA)
+challenger_champion_stars  <- challenger_champion_stars %>% add_column(star_list = NA)
+
+
+platinum_champion_stars$star_list    <- stri_extract_all_regex(platinum_champion_stars$champion,    ".star....")
+diamond_champion_stars$star_list     <- stri_extract_all_regex(diamond_champion_stars$champion,     ".star....")
+master_champion_stars$star_list      <- stri_extract_all_regex(master_champion_stars$champion,      ".star....")
+grandmaster_champion_stars$star_list <- stri_extract_all_regex(grandmaster_champion_stars$champion, ".star....")
+challenger_champion_stars$star_list  <- stri_extract_all_regex(challenger_champion_stars$champion,  ".star....")
+                       
+platinum_champion_stars$star_list    <- stri_extract_all_regex(platinum_champion_stars$star_list,    "[0-9]")
+diamond_champion_stars$star_list     <- stri_extract_all_regex(diamond_champion_stars$star_list,     "[0-9]")
+master_champion_stars$star_list      <- stri_extract_all_regex(master_champion_stars$star_list,      "[0-9]")
+grandmaster_champion_stars$star_list <- stri_extract_all_regex(grandmaster_champion_stars$star_list, "[0-9]")
+challenger_champion_stars$star_list  <- stri_extract_all_regex(challenger_champion_stars$star_list,  "[0-9]")
+
+                       
+                                              
+                       
+# Stefan koniec zmian 
 
 
