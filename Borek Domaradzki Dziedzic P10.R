@@ -2,8 +2,8 @@ setwd("C:/Users/ja/Documents/GitHub/Programowanie-w-R") #Stefan sciezka
 
 list.files()
 
-install.packages("stringi")
-install.packages("tidyverse")
+#install.packages("stringi")
+#install.packages("tidyverse")
 
 
 library(stringi)
@@ -40,19 +40,6 @@ diamond_player_items     <- diamond_raw[,c(1,5,8)]
 master_player_items      <- master_raw[,c(1,5,8)]
 grandmaster_player_items <- grandmaster_raw[,c(1,5,8)]
 challenger_player_items  <- challenger_raw[,c(1,5,8)]
-
-
-#pole testowe usunac
-a.1 <- platinum_player_items[c(1,2),]
-str(a.1)
-
-a.1 <- a.1 %>%
-  add_column(items = NA)
-
-a.1$champion <- stri_extract_all_regex(a.1$champion, "\\[.\\]")
-a.1$champion <- stri_extract_all_regex(a.1$champion, "\\[..\\]" | "\\[.\\]" )
-
-b.1 <- stri_trans_char('id.1', '1', as.character(items[1]))
 
 # Stefan koniec zmian 
 #02.06.22 Stefan
@@ -92,50 +79,55 @@ challenger_champion_stars$star_list  <- stri_extract_all_regex(challenger_champi
 
 # zajecia 2 
 #dodawanie kolumn aby rozdzielic ilosc postacni n-gwiazdkowych do nich
-#alt zrobic to za pomoca komendy split -> wtedy usunac te linijki
 
-#
-platinum_champion_stars    <- platinum_champion_stars    %>% add_column(star_1 = NA)
-diamond_champion_stars     <- diamond_champion_stars     %>% add_column(star_1 = NA)
-master_champion_stars      <- master_champion_stars      %>% add_column(star_1 = NA)
-grandmaster_champion_stars <- grandmaster_champion_stars %>% add_column(star_1 = NA)
-challenger_champion_stars  <- challenger_champion_stars  %>% add_column(star_1 = NA)
-                        
-platinum_champion_stars    <- platinum_champion_stars    %>% add_column(star_2 = NA)
-diamond_champion_stars     <- diamond_champion_stars     %>% add_column(star_2 = NA)
-master_champion_stars      <- master_champion_stars      %>% add_column(star_2 = NA)
-grandmaster_champion_stars <- grandmaster_champion_stars %>% add_column(star_2 = NA)
-challenger_champion_stars  <- challenger_champion_stars  %>% add_column(star_2 = NA)
+platinum_champion_stars    <- platinum_champion_stars    %>% add_column(star_1 = 0)
+diamond_champion_stars     <- diamond_champion_stars     %>% add_column(star_1 = 0)
+master_champion_stars      <- master_champion_stars      %>% add_column(star_1 = 0)
+grandmaster_champion_stars <- grandmaster_champion_stars %>% add_column(star_1 = 0)
+challenger_champion_stars  <- challenger_champion_stars  %>% add_column(star_1 = 0)
 
-platinum_champion_stars    <- platinum_champion_stars    %>% add_column(star_3 = NA)
-diamond_champion_stars     <- diamond_champion_stars     %>% add_column(star_3 = NA)
-master_champion_stars      <- master_champion_stars      %>% add_column(star_3 = NA)
-grandmaster_champion_stars <- grandmaster_champion_stars %>% add_column(star_3 = NA)
-challenger_champion_stars  <- challenger_champion_stars  %>% add_column(star_3 = NA)
+platinum_champion_stars    <- platinum_champion_stars    %>% add_column(star_2 = 0)
+diamond_champion_stars     <- diamond_champion_stars     %>% add_column(star_2 = 0)
+master_champion_stars      <- master_champion_stars      %>% add_column(star_2 = 0)
+grandmaster_champion_stars <- grandmaster_champion_stars %>% add_column(star_2 = 0)
+challenger_champion_stars  <- challenger_champion_stars  %>% add_column(star_2 = 0)
 
+platinum_champion_stars    <- platinum_champion_stars    %>% add_column(star_3 = 0)
+diamond_champion_stars     <- diamond_champion_stars     %>% add_column(star_3 = 0)
+master_champion_stars      <- master_champion_stars      %>% add_column(star_3 = 0)
+grandmaster_champion_stars <- grandmaster_champion_stars %>% add_column(star_3 = 0)
+challenger_champion_stars  <- challenger_champion_stars  %>% add_column(star_3 = 0)
 
-                       
-str(test_platinum_champion_stars)
-test_platinum_champion_stars <- platinum_champion_stars[,c(5,6,7,8)]
-test_platinum_champion_stars[,1] <- as.factor(test_platinum_champion_stars[,1])
+#row <- 0 
 
-test_platinum_champion_stars[20,1][[1]]
-
-for (row in 1:length(test_platinum_champion_stars[,1])) {
-  test_platinum_champion_stars[row,2] <- split(test_platinum_champion_stars[row,1][[1]],c("1"))
+for (row in c(1:length(platinum_champion_stars[,1]))){
+  champion_stars <- platinum_champion_stars[row,5][1]
+  champion_stars <- as.numeric(unlist(champion_stars))
+  
+  #(length(champion_stars))  
+  
+  #str(champion_stars[1])
+  
+  champion_stars[c(1:3)]
+  
+  for(star in c(1:champion_stars)) {
+    
+      if (champion_stars[star] == 1){
+        platinum_champion_stars[row,6] <- platinum_champion_stars[row,6] + 1
+      }
+    
+      else if (champion_stars[star] == 2 ){
+        platinum_champion_stars[row,7] <- platinum_champion_stars[row,7] + 1
+      } 
+    
+      else {
+        platinum_champion_stars[row,8] <- platinum_champion_stars[row,8] + 1
+      }
+  }
+  print(row)
 }
 
-(split(test_platinum_champion_stars, test_platinum_champion_stars$star_list))  
-
-test
-as.factor(test_platinum_champion_stars[2,1][[1]])
-
-(test_platinum_champion_stars_1 <- split(as.factor(unlist(test_platinum_champion_stars[2,1])),c(1)))
-test_platinum_champion_stars_1
-#number_of_stars <- 
-
-                       
-                                              
+print("koniec petli")                                        
                        
 # Stefan koniec zmian 
 
