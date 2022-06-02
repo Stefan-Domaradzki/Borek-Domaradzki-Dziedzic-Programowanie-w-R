@@ -96,6 +96,11 @@ challenger_champion_stars$star_list  <- stri_extract_all_regex(challenger_champi
 # Stefan koniec zmian 
 
 # 02.06.2022 lukasz
+# ilosc AFK-ow
 platinum_raw1 <- platinum_raw[(platinum_raw$combination)=="{}",]
 odsetek_afk <- nrow(platinum_raw1)/nrow(platinum_raw)
+# srednia czasu trwania rozgrywki
+srednia_sekundy <- mean(platinum_raw$gameDuration)
+srednia_minuty <- round(srednia_sekundy/60) 
+cat(srednia_minuty,"min")
 #koniec zmian
