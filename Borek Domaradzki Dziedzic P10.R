@@ -1,4 +1,4 @@
-setwd("C:/Users/ja/Documents/GitHub/Programowanie-w-R") #Stefan sciezka
+setwd("C:/Users/Stefan/Desktop/Legends of Programming/Borek-Domaradzki-Dziedzic-Programowanie-w-R") #Stefan sciezka
 
 list.files()
 
@@ -34,6 +34,10 @@ items <- as.data.frame(items$item_id, row.names = rownames(items))
 # Stefan koniec zmian
 
 # 29.05.22 Stefan
+for (row in (1:length(platinum_champion_stars))) {
+  
+}
+test_platinum_player_items    <- na.omit(platinum_raw[,c(1,5,8)])
 
 platinum_player_items    <- platinum_raw[,c(1,5,8)]
 diamond_player_items     <- diamond_raw[,c(1,5,8)]
@@ -41,16 +45,44 @@ master_player_items      <- master_raw[,c(1,5,8)]
 grandmaster_player_items <- grandmaster_raw[,c(1,5,8)]
 challenger_player_items  <- challenger_raw[,c(1,5,8)]
 
+
+
 # Stefan koniec zmian 
 #02.06.22 Stefan
 
 #przygotowanie tabeli pod statystyke poziomow postaci
+
 
 platinum_champion_stars    <- platinum_raw[,c(1,5,8)]
 diamond_champion_stars     <- diamond_raw[,c(1,5,8)]
 master_champion_stars      <- master_raw[,c(1,5,8)]
 grandmaster_champion_stars <- grandmaster_raw[,c(1,5,8)]
 challenger_champion_stars  <- challenger_raw[,c(1,5,8)]
+
+
+for (row in (1:length(platinum_champion_stars[,2]))) {
+if (platinum_champion_stars[row,2] == 0) {platinum_champion_stars[row,] <- NA}
+}
+for (row in (1:length(diamond_champion_stars[,2]))) {
+  if (diamond_champion_stars[row,2] == 0) {diamond_champion_stars[row,] <- NA}
+}
+for (row in (1:length(master_champion_stars[,2]))) {
+  if (master_champion_stars[row,2] == 0) {master_champion_stars[row,] <- NA}
+}
+for (row in (1:length(grandmaster_champion_stars[,2]))) {
+  if (grandmaster_champion_stars[row,2] == 0) {grandmaster_champion_stars[row,] <- NA}
+}
+for (row in (1:length(challenger_champion_stars[,2]))) {
+  if (challenger_champion_stars[row,2] == 0) {challenger_champion_stars[row,] <- NA}
+}
+
+
+platinum_champion_stars    <- na.omit(platinum_champion_stars)
+diamond_champion_stars     <- na.omit(diamond_champion_stars)
+master_champion_stars      <- na.omit(master_champion_stars)
+grandmaster_champion_stars <- na.omit(grandmaster_champion_stars)
+challenger_champion_stars  <- na.omit(challenger_champion_stars)
+
 
 platinum_champion_stars    <- platinum_champion_stars %>% add_column(champions_list = NA)
 diamond_champion_stars     <- diamond_champion_stars %>% add_column(champions_list = NA)
@@ -127,6 +159,8 @@ for (row in c(1:length(platinum_champion_stars[,1]))){
   print(row)
 }
 
+str(platinum_champion_stars[658,2])
+is_empty(platinum_champion_stars[658,3])
 print("koniec petli")                                        
                        
 # Stefan koniec zmian 
