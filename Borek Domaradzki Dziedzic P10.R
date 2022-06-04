@@ -21,6 +21,31 @@ grandmaster_raw <- read.csv("TFT_Grandmaster_MatchData.csv")
 challenger_raw  <- read.csv("TFT_Challenger_MatchData.csv")
 
 
+for (row in (1:length(platinum_raw[,2]))) {
+  if (platinum_raw[row,2] == 0) {platinum_raw[row,] <- NA}
+}
+for (row in (1:length(diamond_raw[,2]))) {
+  if (diamond_raw[row,2] == 0) {diamond_raw[row,] <- NA}
+}
+for (row in (1:length(master_raw[,2]))) {
+  if (master_raw[row,2] == 0) {master_raw[row,] <- NA}
+}
+for (row in (1:length(grandmaster_raw[,2]))) {
+  if (grandmaster_raw[row,2] == 0) {grandmaster_raw[row,] <- NA}
+}
+for (row in (1:length(challenger_raw[,2]))) {
+  if (challenger_raw[row,2] == 0) {challenger_raw[row,] <- NA}
+}
+
+
+platinum_raw    <- na.omit(platinum_raw)
+diamond_raw     <- na.omit(diamond_raw)
+master_raw     <- na.omit(master_raw)
+grandmaster_raw <- na.omit(grandmaster_raw)
+challenger_raw  <- na.omit(challenger_raw)
+
+
+
 #plik "itmes_id.csv" uprzednio oczyszczony poza r, baza byla produktem skryptu python
 #wiec nie bylo sensu oczyszczac jej w R
 
@@ -58,30 +83,6 @@ diamond_champion_stars     <- diamond_raw[,c(1,5,8)]
 master_champion_stars      <- master_raw[,c(1,5,8)]
 grandmaster_champion_stars <- grandmaster_raw[,c(1,5,8)]
 challenger_champion_stars  <- challenger_raw[,c(1,5,8)]
-
-
-for (row in (1:length(platinum_champion_stars[,2]))) {
-if (platinum_champion_stars[row,2] == 0) {platinum_champion_stars[row,] <- NA}
-}
-for (row in (1:length(diamond_champion_stars[,2]))) {
-  if (diamond_champion_stars[row,2] == 0) {diamond_champion_stars[row,] <- NA}
-}
-for (row in (1:length(master_champion_stars[,2]))) {
-  if (master_champion_stars[row,2] == 0) {master_champion_stars[row,] <- NA}
-}
-for (row in (1:length(grandmaster_champion_stars[,2]))) {
-  if (grandmaster_champion_stars[row,2] == 0) {grandmaster_champion_stars[row,] <- NA}
-}
-for (row in (1:length(challenger_champion_stars[,2]))) {
-  if (challenger_champion_stars[row,2] == 0) {challenger_champion_stars[row,] <- NA}
-}
-
-
-platinum_champion_stars    <- na.omit(platinum_champion_stars)
-diamond_champion_stars     <- na.omit(diamond_champion_stars)
-master_champion_stars      <- na.omit(master_champion_stars)
-grandmaster_champion_stars <- na.omit(grandmaster_champion_stars)
-challenger_champion_stars  <- na.omit(challenger_champion_stars)
 
 
 platinum_champion_stars    <- platinum_champion_stars %>% add_column(champions_list = NA)
