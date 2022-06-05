@@ -1,4 +1,4 @@
-setwd("C:/Users/Stefan/Desktop/Legends of Programming/Borek-Domaradzki-Dziedzic-Programowanie-w-R") #Stefan sciezka
+setwd("C:/Users/ja/Documents/GitHub/Programowanie-w-R/") #Stefan sciezka
 
 list.files()
 
@@ -21,20 +21,20 @@ grandmaster_raw <- read.csv("TFT_Grandmaster_MatchData.csv")
 challenger_raw  <- read.csv("TFT_Challenger_MatchData.csv")
 
 
-for (row in (1:length(platinum_raw[,2]))) {
-  if (platinum_raw[row,2] == 0) {platinum_raw[row,] <- NA}
+for (row in (1:length(platinum_raw[,5]))) {
+  if (platinum_raw[row,5] == 0) {platinum_raw[row,] <- NA}
 }
 for (row in (1:length(diamond_raw[,2]))) {
-  if (diamond_raw[row,2] == 0) {diamond_raw[row,] <- NA}
+  if (diamond_raw[row,5] == 0) {diamond_raw[row,] <- NA}
 }
 for (row in (1:length(master_raw[,2]))) {
-  if (master_raw[row,2] == 0) {master_raw[row,] <- NA}
+  if (master_raw[row,5] == 0) {master_raw[row,] <- NA}
 }
 for (row in (1:length(grandmaster_raw[,2]))) {
-  if (grandmaster_raw[row,2] == 0) {grandmaster_raw[row,] <- NA}
+  if (grandmaster_raw[row,5] == 0) {grandmaster_raw[row,] <- NA}
 }
 for (row in (1:length(challenger_raw[,2]))) {
-  if (challenger_raw[row,2] == 0) {challenger_raw[row,] <- NA}
+  if (challenger_raw[row,5] == 0) {challenger_raw[row,] <- NA}
 }
 
 
@@ -62,7 +62,6 @@ items <- as.data.frame(items$item_id, row.names = rownames(items))
 for (row in (1:length(platinum_champion_stars))) {
   
 }
-test_platinum_player_items    <- na.omit(platinum_raw[,c(1,5,8)])
 
 platinum_player_items    <- platinum_raw[,c(1,5,8)]
 diamond_player_items     <- diamond_raw[,c(1,5,8)]
@@ -134,16 +133,17 @@ challenger_champion_stars  <- challenger_champion_stars  %>% add_column(star_3 =
 #row <- 0 
 
 for (row in c(1:length(platinum_champion_stars[,1]))){
-  champion_stars <- platinum_champion_stars[row,5][1]
-  champion_stars <- as.numeric(unlist(champion_stars))
+  if(!is.na(platinum_champion_stars[row,5])) {
   
-  #(length(champion_stars))  
+    champion_stars <- platinum_champion_stars[row,5][1]
+    champion_stars <- as.numeric(strsplit(champion_stars[[1]],''))
+    length(champion_stars)
+    
+    
+  #str(champion_stars)
   
-  #str(champion_stars[1])
   
-  champion_stars[c(1:3)]
-  
-  for(star in c(1:champion_stars)) {
+  for(star in c(1:length(champion_stars))) {
     
       if (champion_stars[star] == 1){
         platinum_champion_stars[row,6] <- platinum_champion_stars[row,6] + 1
@@ -156,15 +156,35 @@ for (row in c(1:length(platinum_champion_stars[,1]))){
       else {
         platinum_champion_stars[row,8] <- platinum_champion_stars[row,8] + 1
       }
+    
   }
-  print(row)
+  
+  }
+  #print(row)
 }
 
-str(platinum_champion_stars[658,2])
-is_empty(platinum_champion_stars[658,3])
-print("koniec petli")                                        
+
+print("end of loop")
+
+                                    
                        
 # Stefan koniec zmian 
+
+#05.06 Stefan #testowanie zliczania
+
+t_champion_stars[1] <- 2
+t_champion_stars
+str(t_champion_stars[[1]])
+
+
+?stri_split()
+    
+t_champion_stars <- stri_split(t_champion_stars, "")
+(t_champion_stars <- as.numeric(champion_stars))
+t_champion_stars
+
+
+#Stefan koniec zmian
 
 # 02.06.2022 lukasz
 # ilosc AFK-ow
