@@ -186,6 +186,50 @@ t_champion_stars
 
 #Stefan koniec zmian
 
+#06.06 Stefan funkcje
+
+countstars <- function(rank_champion_star) {for (row in c(1:length(rank_champion_star[,1]))){
+  if(!is.na(rank_champion_star[row,5])) {
+    
+    champion_stars <- rank_champion_star[row,5][1]
+    champion_stars <- as.numeric(strsplit(champion_stars[[1]],''))
+    length(champion_stars)
+    
+    
+    #str(champion_stars)
+    
+    
+    for(star in c(1:length(champion_stars))) {
+      
+      if (champion_stars[star] == 1){
+        rank_champion_star[row,6] <- rank_champion_star[row,6] + 1
+      }
+      
+      else if (champion_stars[star] == 2 ){
+        rank_champion_star[row,7] <- rank_champion_star[row,7] + 1
+      } 
+      
+      else {
+        rank_champion_star[row,8] <- rank_champion_star[row,8] + 1
+      }
+      
+    }
+    
+  }
+  #print(row)
+}
+  
+  
+  print("end of loop")
+  return(rank_champion_star)
+}
+
+diamond_champion_stars <- countstars(diamond_champion_stars)
+
+#koniec zmian
+
+
+
 # 02.06.2022 lukasz
 # ilosc AFK-ow
 platinum_raw1 <- platinum_raw[(platinum_raw$combination)=="{}",]
