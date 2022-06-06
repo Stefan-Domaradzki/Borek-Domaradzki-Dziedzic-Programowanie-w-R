@@ -151,14 +151,12 @@ challenger_champion_stars  <- challenger_champion_stars  %>% add_column(star_3 =
 
 #06.06 Stefan funkcje
 
-countstars <- function(rank_champion_star) {for (row in c(1:length(rank_champion_star[,1]))){
+countstars <- function(rank_champion_star) {for (row in c(1:length(rank_champion_star[,1]))){ 
   if(!is.na(rank_champion_star[row,5])) {
     
     champion_stars <- rank_champion_star[row,5][1]
     champion_stars <- as.numeric(strsplit(champion_stars[[1]],''))
-    length(champion_stars)
-    
-    
+    #length(champion_stars)
     #str(champion_stars)
     
     
@@ -177,11 +175,9 @@ countstars <- function(rank_champion_star) {for (row in c(1:length(rank_champion
       }
       
     }
-    
   }
   #print(row)
 }
-  
   
   print("end of loop")
   return(rank_champion_star)
@@ -193,6 +189,31 @@ master_champion_stars      <- countstars(master_champion_stars)
 grandmaster_champion_stars <- countstars(grandmaster_champion_stars)
 challenger_champion_stars  <- countstars(challenger_champion_stars)
 
+?aggregate
+
+stars_mean_rank <- function(rank_champion_star){
+   rank_champion_star <- platinum_champion_stars
+   m1 <- aggregate(rank_champion_star["star_1"],     rank_champion_star["Ranked"], mean)
+   m2 <- aggregate(rank_champion_star["star_2"],     rank_champion_star["Ranked"], mean)
+   m3 <- aggregate(rank_champion_star["star_3"],     rank_champion_star["Ranked"], mean)
+  
+   
+   (df2 <- as.data.frame(m2[,2]))
+   (df3 <- as.data.frame(m3[,2]))  
+   
+   rank_star_means <- as.data.frame(m1)
+   rank_star_means <- cbind(rank_star_means, as.data.frame(m2[,2]))
+   rank_star_means <- cbind(rank_star_means, as.data.frame(m3[,2]))
+  
+   colnames(rank_star_means) <- c("Ranked", "1 star", "2 star", "3 star")
+   return(rank_star_means)
+}
+  
+(plat_star_means        <- stars_mean_rank(platinum_champion_stars))
+(diamond_star_means     <- stars_mean_rank(diamond_champion_stars))
+(master_star_means      <- stars_mean_rank(master_champion_stars))
+(grandmaster_star_means <- stars_mean_rank(grandmaster_champion_stars))
+(challenger_star_means  <- stars_mean_rank(challenger_champion_stars))
 #koniec zmian
 
 
