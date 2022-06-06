@@ -130,58 +130,21 @@ master_champion_stars      <- master_champion_stars      %>% add_column(star_3 =
 grandmaster_champion_stars <- grandmaster_champion_stars %>% add_column(star_3 = 0)
 challenger_champion_stars  <- challenger_champion_stars  %>% add_column(star_3 = 0)
 
-#row <- 0 
-
-for (row in c(1:length(platinum_champion_stars[,1]))){
-  if(!is.na(platinum_champion_stars[row,5])) {
-  
-    champion_stars <- platinum_champion_stars[row,5][1]
-    champion_stars <- as.numeric(strsplit(champion_stars[[1]],''))
-    length(champion_stars)
-    
-    
-  #str(champion_stars)
-  
-  
-  for(star in c(1:length(champion_stars))) {
-    
-      if (champion_stars[star] == 1){
-        platinum_champion_stars[row,6] <- platinum_champion_stars[row,6] + 1
-      }
-    
-      else if (champion_stars[star] == 2 ){
-        platinum_champion_stars[row,7] <- platinum_champion_stars[row,7] + 1
-      } 
-    
-      else {
-        platinum_champion_stars[row,8] <- platinum_champion_stars[row,8] + 1
-      }
-    
-  }
-  
-  }
-  #print(row)
-}
-
-
-print("end of loop")
-
-                                    
-                       
+             
 # Stefan koniec zmian 
 
 #05.06 Stefan #testowanie zliczania
 
-t_champion_stars[1] <- 2
-t_champion_stars
-str(t_champion_stars[[1]])
+#t_champion_stars[1] <- 2
+#t_champion_stars
+#str(t_champion_stars[[1]])
 
 
-?stri_split()
+#?stri_split()
     
-t_champion_stars <- stri_split(t_champion_stars, "")
-(t_champion_stars <- as.numeric(champion_stars))
-t_champion_stars
+#t_champion_stars <- stri_split(t_champion_stars, "")
+#(t_champion_stars <- as.numeric(champion_stars))
+#t_champion_stars
 
 
 #Stefan koniec zmian
@@ -224,7 +187,11 @@ countstars <- function(rank_champion_star) {for (row in c(1:length(rank_champion
   return(rank_champion_star)
 }
 
-diamond_champion_stars <- countstars(diamond_champion_stars)
+platinum_champion_stars    <- countstars(platinum_champion_stars)
+diamond_champion_stars     <- countstars(diamond_champion_stars)
+master_champion_stars      <- countstars(master_champion_stars)
+grandmaster_champion_stars <- countstars(grandmaster_champion_stars)
+challenger_champion_stars  <- countstars(challenger_champion_stars)
 
 #koniec zmian
 
