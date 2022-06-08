@@ -258,26 +258,25 @@ challenger_level_ranked <- F_level_ranked(challenger_raw)
 # Wykres pierwszych miejsc w zależności od poziomu 
 F_rank_place_level <- function(rank_level_place){
 kolor_level_ranked <- brewer.pal(5, "Set2") 
-barplot(rank_level_place$Pierwsze, names.arg = c("4","722","5418","3841"), 
-        xlab = "Poziom gracza",ylab = "Ilość gier",ylim = c(0,6000), cex.names = 1, col = kolor_level_ranked, main = "Pierwsze miejsca w zależności od poziomu
-        Platyna")
+barplot(rank_level_place$Pierwsze, names.arg = rank_level_place[,1], 
+        xlab = "Poziom gracza",ylab = "Ilość gier",ylim = c(0,6000), cex.names = 2, col = kolor_level_ranked, main = "Pierwsze miejsca w zależności od poziomu", cex.main = 2, cex.axis = 2, )
 legend("topleft",c("Szósty","Siódmy","Ósmy","Dziewiąty"),
-       fill = kolor_level_ranked)
+       fill = kolor_level_ranked, cex = 2)
 }
 
-png("plat_place_level.png")
+png("plat_place_level.png", width = 1000, height = 1000)
 F_rank_place_level(platinum_level_ranked)
 dev.off()
-png("diam_place_level.png")
+png("diam_place_level.png", width = 1000, height = 1000)
 F_rank_place_level(diamond_level_ranked)
 dev.off()
-png("master_place_level.png")
+png("master_place_level.png", width = 1000, height = 1000)
 F_rank_place_level(master_level_ranked)
 dev.off()
-png("grandmas_place_level.png")
+png("grandmas_place_level.png", width = 1000, height = 1000)
 F_rank_place_level(grandmaster_level_ranked)
 dev.off()
-png("challe_place_level.png")
+png("challe_place_level.png", width = 1000, height = 1000)
 F_rank_place_level(challenger_level_ranked)
 dev.off()
 
@@ -296,33 +295,33 @@ color_rank_ranked_level <- brewer.pal(5, "Spectral")
 
 # Suma miejsc
 
-png("level6_ranked_sum.png")
-barplot(sumy_level_ranked[[1]], main = "Suma miejsc od 1 do 4 w zależności od rangi na poziomie szóstym", cex.main = 0.9,
-        names.arg = sumy_level_ranked[[1]], col = color_rank_ranked_level)
-legend("topright",c("Platyna","Diament","Master","Grandmaster","Challenger"), fill = color_rank_ranked_level, cex = 1)
+png("level6_ranked_sum.png", width = 1000, height = 1000)
+barplot(sumy_level_ranked[[1]], main = "Suma miejsc od 1 do 4 w zależności od rangi na poziomie szóstym", cex.main = 2,
+        names.arg = sumy_level_ranked[[1]], col = color_rank_ranked_level, cex.axis = 2, cex.names = 2)
+legend("topright",c("Platyna","Diament","Master","Grandmaster","Challenger"), fill = color_rank_ranked_level, cex = 2)
 dev.off()
 
 
-png("level7_ranked_sum.png")
-barplot(sumy_level_ranked[[2]], main = "Suma miejsc od 1 do 4 w zależności od rangi na poziomie siodmym", cex.main = 0.9,
-        names.arg = sumy_level_ranked[[2]], col = color_rank_ranked_level, ylim = c(0,7000))
-legend("topright",c("Platyna","Diament","Master","Grandmaster","Challenger"), fill = color_rank_ranked_level, cex = 1, 
+png("level7_ranked_sum.png", width = 1000, height = 1000)
+barplot(sumy_level_ranked[[2]], main = "Suma miejsc od 1 do 4 w zależności od rangi na poziomie siodmym", cex.main = 2,
+        names.arg = sumy_level_ranked[[2]], col = color_rank_ranked_level, ylim = c(0,7000), cex.axis = 2,cex.names = 2)
+legend("topright",c("Platyna","Diament","Master","Grandmaster","Challenger"), fill = color_rank_ranked_level, cex = 2, 
 )
 dev.off()
 
 
-png("level8_ranked_sum.png")
-barplot(sumy_level_ranked[[3]], main = "Suma miejsc od 1 do 4 w zależności od rangi na poziomie ósmym", cex.main = 0.9,
-        names.arg = sumy_level_ranked[[3]], col = color_rank_ranked_level,ylim = c(0,35000))
-legend("topright",c("Platyna","Diament","Master","Grandmaster","Challenger"), fill = color_rank_ranked_level, cex = 1, 
+png("level8_ranked_sum.png", width = 1000, height = 1000)
+barplot(sumy_level_ranked[[3]], main = "Suma miejsc od 1 do 4 w zależności od rangi na poziomie ósmym", cex.main = 2,
+        names.arg = sumy_level_ranked[[3]], col = color_rank_ranked_level,ylim = c(0,35000), cex.axis = 2, cex.names = 2)
+legend("topright",c("Platyna","Diament","Master","Grandmaster","Challenger"), fill = color_rank_ranked_level, cex = 2, 
 )
 dev.off()
 
 
-png("level9_ranked_sum.png")
-barplot(sumy_level_ranked[[4]], main = "Suma miejsc od 1 do 4 w zależności od rangi na poziomie dziewiątym", cex.main = 0.9,
-        names.arg = sumy_level_ranked[[4]], col = color_rank_ranked_level,ylim = c(0,20000))
-legend("topright",c("Platyna","Diament","Master","Grandmaster","Challenger"), fill = color_rank_ranked_level, cex = 1, 
+png("level9_ranked_sum.png", width = 1000, height = 1000)
+barplot(sumy_level_ranked[[4]], main = "Suma miejsc od 1 do 4 w zależności od rangi na poziomie dziewiątym", cex.main = 2,
+        names.arg = sumy_level_ranked[[4]], col = color_rank_ranked_level,ylim = c(0,20000), cex.axis = 2, cex.names = 2)
+legend("topright",c("Platyna","Diament","Master","Grandmaster","Challenger"), fill = color_rank_ranked_level, cex = 2, 
 )
 dev.off()
 
@@ -487,24 +486,24 @@ F_combination_popularity <- function(combination_popularity)
   colourCount <- nrow(rank_combination_popularity)
   getPalette <- colorRampPalette(brewer.pal(9, "Set1"))
   
-  barplot(rank_combination_popularity$Ilosc, horiz = TRUE, las=1, cex.names = 0.8, names.arg = rank_combination_popularity$Ilosc
-          ,xlim = c(0,15000), col=getPalette(colourCount), main = "Popularność kombinacji", cex.main = 0.9)
-  legend("topright",legend = rank_combination_popularity[,1], cex = 1, fill=getPalette(colourCount))
+  barplot(rank_combination_popularity$Ilosc, horiz = TRUE, las=1, cex.names = 1.3, names.arg = rank_combination_popularity$Ilosc
+          ,xlim = c(0,15000), col=getPalette(colourCount), main = "Popularność kombinacji", cex.main = 2, cex.axis = 2)
+  legend("topright",legend = rank_combination_popularity[,1], cex = 2, fill=getPalette(colourCount))
 }
 
-png("plat_comb_popularity.png")
+png("plat_comb_popularity.png",width = 1000, height = 1000)
 F_combination_popularity(platinum_combination)
 dev.off()
-png("diam_comb_popularity.png")
+png("diam_comb_popularity.png",width = 1000, height = 1000)
 F_combination_popularity(diamond_combination)
 dev.off()
-png("master_comb_popularity.png")
+png("master_comb_popularity.png",width = 1000, height = 1000)
 F_combination_popularity(master_combination)
 dev.off()
-png("grandmas_comb_popularity.png")
+png("grandmas_comb_popularity.png",width = 1000, height = 1000)
 F_combination_popularity(grandmaster_combination)
 dev.off()
-png("chall_comb_popularity.png")
+png("chall_comb_popularity.png",width = 1000, height = 1000)
 F_combination_popularity(challenger_combination)
 dev.off()
 
@@ -521,25 +520,25 @@ F_combination_winrate <- function(combination_winrate){
   colourCount <- nrow(rank_winrate_popularity)
   getPalette <- colorRampPalette(brewer.pal(9, "Set1"))
   
-  barplot(rank_winrate_popularity$Ilosc, horiz = TRUE, las=1, cex.names = 0.8, names.arg = rank_winrate_popularity$Ilosc
-          ,xlim = c(0,2000), col=getPalette(colourCount), main = "Popularność kombinacji", cex.main = 0.9)
-  legend("topright",legend = rank_winrate_popularity[,1], cex = 1, fill=getPalette(colourCount))
+  barplot(rank_winrate_popularity$Ilosc, horiz = TRUE, las=1, cex.names = 1.3, names.arg = rank_winrate_popularity$Ilosc
+          ,xlim = c(0,2000), col=getPalette(colourCount), main = "Popularność kombinacji", cex.main = 2, cex.axis = 2)
+  legend("topright",legend = rank_winrate_popularity[,1], cex = 2, fill=getPalette(colourCount))
 }
 
 
-png("plat_winrate_comb.png")
+png("plat_winrate_comb.png",width = 1000, height = 1000)
 F_combination_winrate(platinum_combination)
 dev.off()
-png("diam_winrate_comb.png")
+png("diam_winrate_comb.png",width = 1000, height = 1000)
 F_combination_winrate(diamond_combination)
 dev.off()
-png("master_winrate_comb.png")
+png("master_winrate_comb.png",width = 1000, height = 1000)
 F_combination_winrate(master_combination)
 dev.off()
-png("grandmas_winrate_comb.png")
+png("grandmas_winrate_comb.png",width = 1000, height = 1000)
 F_combination_winrate(grandmaster_combination)
 dev.off()
-png("chall_winrate_comb.png")
+png("chall_winrate_comb.png",width = 1000, height = 1000)
 F_combination_winrate(challenger_combination)
 dev.off()
 
