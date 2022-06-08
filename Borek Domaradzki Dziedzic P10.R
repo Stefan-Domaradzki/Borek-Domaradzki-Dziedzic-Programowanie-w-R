@@ -327,10 +327,10 @@ challenger_kopia <- na.omit(challenger_kopia)
 
 
 plat_kopia <- plat_kopia[order(plat_kopia$P_liczba , decreasing = T),]
-diamond_kopia <- diamond_kopia[order(diamond_kopia$`D liczba`, decreasing = T),]
-master_kopia <- plat_kopia[order(master_kopia$`M liczba` ,decreasing = T),]
-grandmaster_kopia <- grandmaster_kopia[order(grandmaster_kopia$`GM liczba` ,decreasing = T),]
-challenger_kopia <- challenger_kopia[order(challenger_kopia$`C liczba` ,decreasing = T),]
+diamond_kopia <- diamond_kopia[order(diamond_kopia$D_liczba , decreasing = T),]
+master_kopia <- master_kopia[order(master_kopia$M_liczba ,decreasing = T),]
+grandmaster_kopia <- grandmaster_kopia[order(grandmaster_kopia$GM_liczba ,decreasing = T),]
+challenger_kopia <- challenger_kopia[order(challenger_kopia$C_liczba ,decreasing = T),]
   
 plat_kopia <- plat_kopia[c(1:20),]
 diamond_kopia <- diamond_kopia[c(1:20),]
@@ -338,9 +338,22 @@ master_kopia <- master_kopia[c(1:20),]
 grandmaster_kopia <- grandmaster_kopia[c(1:20),]
 challenger_kopia <- challenger_kopia[c(1:20),]
 
+plat_kopia <- plat_kopia[order(plat_kopia$P_liczba , decreasing = T),]
+diamond_kopia <- diamond_kopia[order(diamond_kopia$D_liczba , decreasing = T),]
+master_kopia <- master_kopia[order(master_kopia$M_liczba ,decreasing = T),]
+grandmaster_kopia <- grandmaster_kopia[order(grandmaster_kopia$GM_liczba ,decreasing = T),]
+challenger_kopia <- challenger_kopia[order(challenger_kopia$C_liczba ,decreasing = T),]
+
+row.names(plat_kopia) <- c(1:20)
+row.names(diamond_kopia) <- c(1:20)
+row.names(master_kopia) <- c(1:20)
+row.names(grandmaster_kopia) <- c(1:20)
+row.names(challenger_kopia) <- c(1:20)
+
+bohaterowie_razem <- 0
 bohaterowie_razem <- cbind(plat_kopia, diamond_kopia)
 
-bohaterowie_razem <- cbind(bohaterowie_razem,master_kopia)
+bohaterowie_razem <- cbind(bohaterowie_razem, master_kopia)
 bohaterowie_razem <- cbind(bohaterowie_razem, grandmaster_kopia)
 bohaterowie_razem <- cbind(bohaterowie_razem, challenger_kopia)
 
