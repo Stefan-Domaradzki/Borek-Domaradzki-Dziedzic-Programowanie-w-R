@@ -472,7 +472,7 @@ challenger_combination <- F_Combination(challenger_raw)
 ######
 
 #Wykres popularności
-F_combination_popularity <- function(combination_popularity)
+F_combination_popularity <- function(combination_popularity, popularity_name)
 {
   rank_combination_popularity_table <- sort(table(combination_popularity$Kombinacja
                                                   [combination_popularity$Kombinacja != "Other"]),decreasing = TRUE)
@@ -487,27 +487,27 @@ F_combination_popularity <- function(combination_popularity)
   getPalette <- colorRampPalette(brewer.pal(9, "Set1"))
   
   barplot(rank_combination_popularity$Ilosc, horiz = TRUE, las=1, cex.names = 1.3, names.arg = rank_combination_popularity$Ilosc
-          ,xlim = c(0,15000), col=getPalette(colourCount), main = "Popularność kombinacji", cex.main = 2, cex.axis = 2)
+          ,xlim = c(0,15000), col=getPalette(colourCount), main = popularity_name, cex.main = 2, cex.axis = 2)
   legend("topright",legend = rank_combination_popularity[,1], cex = 2, fill=getPalette(colourCount))
 }
 
 png("plat_comb_popularity.png",width = 1000, height = 1000)
-F_combination_popularity(platinum_combination)
+F_combination_popularity(platinum_combination, "Popularność kombinacji - Platyna")
 dev.off()
 png("diam_comb_popularity.png",width = 1000, height = 1000)
-F_combination_popularity(diamond_combination)
+F_combination_popularity(diamond_combination, "Popularność kombinacji - Diamond")
 dev.off()
 png("master_comb_popularity.png",width = 1000, height = 1000)
-F_combination_popularity(master_combination)
+F_combination_popularity(master_combination, "Popularność kombinacji - Master")
 dev.off()
 png("grandmas_comb_popularity.png",width = 1000, height = 1000)
-F_combination_popularity(grandmaster_combination)
+F_combination_popularity(grandmaster_combination, "Popularność kombinacji - Grandmaster")
 dev.off()
 png("chall_comb_popularity.png",width = 1000, height = 1000)
-F_combination_popularity(challenger_combination)
+F_combination_popularity(challenger_combination, "Popularność kombinacji - Challenger")
 dev.off()
 
-F_combination_winrate <- function(combination_winrate){
+F_combination_winrate <- function(combination_winrate,rank_name){
   rank_winrate_popularity_table <- sort(table(combination_winrate$Kombinacja[combination_winrate$Kombinacja != "Other" 
                                                                              & combination_winrate$Miejsce == 1]),decreasing = TRUE)
   
@@ -521,26 +521,27 @@ F_combination_winrate <- function(combination_winrate){
   getPalette <- colorRampPalette(brewer.pal(9, "Set1"))
   
   barplot(rank_winrate_popularity$Ilosc, horiz = TRUE, las=1, cex.names = 1.3, names.arg = rank_winrate_popularity$Ilosc
-          ,xlim = c(0,2000), col=getPalette(colourCount), main = "Popularność kombinacji", cex.main = 2, cex.axis = 2)
+          ,xlim = c(0,2000), col=getPalette(colourCount), main = rank_name, cex.main = 2, cex.axis = 2)
   legend("topright",legend = rank_winrate_popularity[,1], cex = 2, fill=getPalette(colourCount))
 }
 
 
 png("plat_winrate_comb.png",width = 1000, height = 1000)
-F_combination_winrate(platinum_combination)
+F_combination_winrate(platinum_combination,"Wygrane kombinacji - Platyna")
 dev.off()
 png("diam_winrate_comb.png",width = 1000, height = 1000)
-F_combination_winrate(diamond_combination)
+F_combination_winrate(diamond_combination, "Wygrane kombinacji - Diamond")
 dev.off()
 png("master_winrate_comb.png",width = 1000, height = 1000)
-F_combination_winrate(master_combination)
+F_combination_winrate(master_combination, "Wygrane kombinacji - Master")
 dev.off()
 png("grandmas_winrate_comb.png",width = 1000, height = 1000)
-F_combination_winrate(grandmaster_combination)
+F_combination_winrate(grandmaster_combination, "Wygrane kombinacji - Grandmaster")
 dev.off()
 png("chall_winrate_comb.png",width = 1000, height = 1000)
-F_combination_winrate(challenger_combination)
+F_combination_winrate(challenger_combination, "Wygrane kombinacji - Challenger")
 dev.off()
+
 
 ##################################
 # koniec zmian
