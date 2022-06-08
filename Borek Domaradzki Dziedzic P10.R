@@ -227,3 +227,322 @@ srednia_sekundy <- mean(platinum_raw$gameDuration)
 srednia_minuty <- round(srednia_sekundy/60) 
 cat(srednia_minuty,"min")
 #koniec zmian
+
+
+###################################################
+# Pawel 06.06.2022
+# Wygrane w zaleznosci od poziomu 
+###################################################
+
+# I-te miejsce na j-tym levelu 
+
+F_level_ranked <- function(rank_level_ranked){
+rank_level_ranked_list <- list(1,2,3,4)
+for (i in 1:4) {
+  for (j in 6:9) {
+    rank_level_ranked_list[[i]][j-5] <- length(rank_level_ranked$level[rank_level_ranked$level == j 
+                                    & rank_level_ranked$Ranked == i])
+  }
+}
+rank_level_ranked_frame <- as.data.frame(rank_level_ranked_list,row.names = c("Szósty","Siódmy","Ósmy","Dziewiąty")
+                                         ,col.names = (c("Pierwsze","Drugie","Trzecie","Czwarte")))
+return(rank_level_ranked_frame)
+}
+
+platinum_level_ranked <- F_level_ranked(platinum_raw)
+diamond_level_ranked <- F_level_ranked(diamond_raw)
+master_level_ranked <- F_level_ranked(master_raw)
+grandmaster_level_ranked <- F_level_ranked(grandmaster_raw)
+challenger_level_ranked <- F_level_ranked(challenger_raw)
+
+# Wykres pierwszych miejsc w zależności od poziomu 
+F_rank_place_level <- function(rank_level_place){
+kolor_level_ranked <- brewer.pal(5, "Set2") 
+barplot(rank_level_place$Pierwsze, names.arg = c("4","722","5418","3841"), 
+        xlab = "Poziom gracza",ylab = "Ilość gier",ylim = c(0,6000), cex.names = 1, col = kolor_level_ranked, main = "Pierwsze miejsca w zależności od poziomu
+        Platyna")
+legend("topleft",c("Szósty","Siódmy","Ósmy","Dziewiąty"),
+       fill = kolor_level_ranked)
+}
+
+png("plat_place_level.png")
+F_rank_place_level(platinum_level_ranked)
+dev.off()
+png("diam_place_level.png")
+F_rank_place_level(diamond_level_ranked)
+dev.off()
+png("master_place_level.png")
+F_rank_place_level(master_level_ranked)
+dev.off()
+png("grandmas_place_level.png")
+F_rank_place_level(grandmaster_level_ranked)
+dev.off()
+png("challe_place_level.png")
+F_rank_place_level(challenger_level_ranked)
+dev.off()
+
+# Wykres łacznych wygranych na danym poziomie w zaleznosci od rangi
+# Sumowanie wierszy danych poziomów w zaleznosci od rangi
+sumy_level_ranked <- list(1,2,3,4)
+for (i in 1:4) {
+  sumy_level_ranked[[i]] <- c(platinum_level_ranked_sum <- as.numeric(rowSums(platinum_level_ranked[,1:4])[i]),
+                              diamond_level_ranked_sum <- as.numeric(rowSums(diamond_level_ranked[,1:4])[i]),
+                              master_level_ranked_sum <- as.numeric(rowSums(master_level_ranked[,1:4])[i]),
+                              grandmaster_level_ranked_sum <- as.numeric(rowSums(grandmaster_level_ranked[,1:4])[i]),
+                              challenger_level_ranked_sum <- as.numeric(rowSums(challenger_level_ranked[,1:4])[i]))
+}
+
+color_rank_ranked_level <- brewer.pal(5, "Spectral")
+
+# Suma miejsc
+
+png("level6_ranked_sum.png")
+barplot(sumy_level_ranked[[1]], main = "Suma miejsc od 1 do 4 w zależności od rangi na poziomie szóstym", cex.main = 0.9,
+        names.arg = sumy_level_ranked[[1]], col = color_rank_ranked_level)
+legend("topright",c("Platyna","Diament","Master","Grandmaster","Challenger"), fill = color_rank_ranked_level, cex = 1)
+dev.off()
+
+
+png("level7_ranked_sum.png")
+barplot(sumy_level_ranked[[2]], main = "Suma miejsc od 1 do 4 w zależności od rangi na poziomie siodmym", cex.main = 0.9,
+        names.arg = sumy_level_ranked[[2]], col = color_rank_ranked_level, ylim = c(0,7000))
+legend("topright",c("Platyna","Diament","Master","Grandmaster","Challenger"), fill = color_rank_ranked_level, cex = 1, 
+)
+dev.off()
+
+
+png("level8_ranked_sum.png")
+barplot(sumy_level_ranked[[3]], main = "Suma miejsc od 1 do 4 w zależności od rangi na poziomie ósmym", cex.main = 0.9,
+        names.arg = sumy_level_ranked[[3]], col = color_rank_ranked_level,ylim = c(0,35000))
+legend("topright",c("Platyna","Diament","Master","Grandmaster","Challenger"), fill = color_rank_ranked_level, cex = 1, 
+)
+dev.off()
+
+
+png("level9_ranked_sum.png")
+barplot(sumy_level_ranked[[4]], main = "Suma miejsc od 1 do 4 w zależności od rangi na poziomie dziewiątym", cex.main = 0.9,
+        names.arg = sumy_level_ranked[[4]], col = color_rank_ranked_level,ylim = c(0,20000))
+legend("topright",c("Platyna","Diament","Master","Grandmaster","Challenger"), fill = color_rank_ranked_level, cex = 1, 
+)
+dev.off()
+
+F_Combination <- function(combination_rank){
+  
+  rank_combination <- data.frame(Lp. = c(1:nrow(combination_rank)))
+  rank_combination$Blasters <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,".'Blaster':...."),"[0-9]")))
+  rank_combination$Chrono <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,".'Chrono':...."),"[0-9]")))
+  rank_combination$Cybernetic <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,".'Cybernetic':...."),"[0-9]")))
+  rank_combination$Celestials <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,".'Set3_Celestial':....")," [0-9]")))
+  rank_combination$Dark_Star <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'DarkStar':."),"[0-9]")))
+  rank_combination$Mech_Pilot <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'MechPilot':...."),"[0-9]")))
+  rank_combination$Rebel <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Rebel':...."),"[0-9]")))
+  rank_combination$Space_Pirate <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'SpacePirate':...."),"[0-9]")))
+  rank_combination$Star_Guardian <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'StarGuardian':...."),"[0-9]")))
+  rank_combination$Valkyrie <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Valkyrie':...."),"[0-9]")))
+  rank_combination$Void <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Set3_Void':....")," [0-9]")))
+  rank_combination$Blademaster <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Set3_Blademaster':....")," [0-9]")))
+  rank_combination$Brawler <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Set3_Brawler':....")," [0-9]")))
+  rank_combination$Demolitionist <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Demolitionist':...."),"[0-9]")))
+  rank_combination$Infiltrator <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Infiltrator':...."),"[0-9]")))
+  rank_combination$Mystic <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Set3_Mystic':....")," [0-9]")))
+  rank_combination$Mercenary <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Mercenary':...."),"[0-9]")))
+  rank_combination$Mana_Reaver <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'ManaReaver':...."),"[0-9]")))
+  rank_combination$Protector <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Protector':...."),"[0-9]")))
+  rank_combination$Sniper <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Sniper':...."),"[0-9]")))
+  rank_combination$Sorcerer <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Set3_Sorcerer':....")," [0-9]")))
+  rank_combination$Starship <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Starship':...."),"[0-9]")))
+  rank_combination$Vanguard <- as.numeric(unlist(stri_extract_all_regex(stri_extract_all_regex(combination_rank$combination,". 'Vanguard':.."),"[0-9]")))
+  rank_combination$Rank <- as.numeric(combination_rank$Ranked)
+  rank_combination$Level <- as.numeric(combination_rank$level)
+  rank_combination$GameDuration <- as.numeric(combination_rank$ingameDuration)
+  rank_combination <- rank_combination[-c(1,1)]
+  rank_combination[is.na(rank_combination)] <- 0
+  
+  rank_combination_all <- data.frame(matrix(ncol=1,nrow=nrow(rank_combination), dimnames=list(NULL, "Kombinacja")))
+  for (i in 1:nrow(rank_combination)) {
+    for(j in 1:(length(rank_combination)-3)){
+      #Blasters
+      if(rank_combination[i,1] >= 5){
+        rank_combination_all[i,] <- "Blaster"
+        break
+      }
+      #Blademaster + celestial
+      else if(rank_combination[i,12] >= 3 && rank_combination[i,4] >= 4){
+        rank_combination_all[i,] <- "Blademaster_Celestial"
+        break
+      }
+      #infiltrators
+      else if(rank_combination[i,15] >= 6){
+        rank_combination_all[i,] <- "Infiltrators"
+        break
+      } 
+      #Chrono
+      else if(rank_combination[i,2] >= 6){
+        rank_combination_all[i,] <- "Chrono"
+        break
+      } 
+      #Cybernetic
+      else if(rank_combination[i,3] >= 6){
+        rank_combination_all[i,] <- "Cybernetic"
+        break
+      } 
+      #Celestials
+      else if(rank_combination[i,4] >= 6){
+        rank_combination_all[i,] <- "Celestials"
+        break
+      }
+      #Dark stars
+      else if(rank_combination[i,5] >= 6){
+        rank_combination_all[i,] <- "Dark_Star"
+        break
+      }
+      #Mecha + infiltrators
+      else if(rank_combination[i,6] >= 3 && rank_combination[i,15] >= 4){
+        rank_combination_all[i,] <- "Mecha_Infiltrators"
+        break
+      } 
+      #Rebel
+      else if(rank_combination[i,7] >= 6){
+        rank_combination_all[i,] <- "Rebel"
+        break
+      } 
+      #Spacepirates
+      else if(rank_combination[i,8] >= 4){
+        rank_combination_all[i,] <- "Spacepirates"
+        break
+      } 
+      #Starguardians
+      else if(rank_combination[i,9] >= 6){
+        rank_combination_all[i,] <- "Starguardians"
+        break
+      } 
+      #Blademasters
+      else if(rank_combination[i,12] >= 6){
+        rank_combination_all[i,] <- "Blademasters"
+        break
+      } 
+      #Brawlers + blasters
+      else if(rank_combination[i,13] >= 4 && rank_combination[i,1] >=4 ){
+        rank_combination_all[i,] <- "Brawlers_Blasters"
+        break
+      } 
+      #Mystic + Vanguards
+      else if(rank_combination[i,15] >= 4 && rank_combination[i,23] >= 4){
+        rank_combination_all[i,] <- "Mystic_Vanguards"
+        break
+      } 
+      #Mystic + protectors
+      else if(rank_combination[i,16] >= 4 && rank_combination[i,19] >= 4){
+        rank_combination_all[i,] <- "Mystic_Protectors"
+        break
+      } 
+      #Sorcerer + mecha
+      else if(rank_combination[i,19] >= 4 && rank_combination[i,6] >= 3){
+        rank_combination_all[i,] <- "Mecha_Sorcerers"
+        break
+      }
+      #Sorcerer
+      else if(rank_combination[i,19] >= 6){
+        rank_combination_all[i,] <- "Sorcerer"
+        break
+      }
+      #Blademaster + chrono
+      else if(rank_combination[i,12] >= 3 && rank_combination[i,2] >= 4){
+        rank_combination_all[i,] <- "Blademaster_Chrono"
+        break
+      } 
+      else {
+        rank_combination_all[i,] <- "Other"
+        break
+      }
+    }  
+  }
+  
+  rank_combination_all$Czas <- round(rank_combination$GameDuration)
+  rank_combination_all$Poziom <- rank_combination$Level
+  rank_combination_all$Miejsce <- rank_combination$Rank
+  return(rank_combination_all)
+}
+
+platinum_combination <- F_Combination(platinum_raw)
+diamond_combination <- F_Combination(diamond_raw)
+master_combination <- F_Combination(master_raw)
+grandmaster_combination <- F_Combination(grandmaster_raw)
+challenger_combination <- F_Combination(challenger_raw)
+
+######
+
+#Wykres popularności
+F_combination_popularity <- function(combination_popularity)
+{
+  rank_combination_popularity_table <- sort(table(combination_popularity$Kombinacja
+                                                  [combination_popularity$Kombinacja != "Other"]),decreasing = TRUE)
+  
+  # Zamiana tabeli na ramke
+  rank_combination_popularity <- as.data.frame(rank_combination_popularity_table)
+  colnames(rank_combination_popularity) <- c("Kombinacja","Ilosc")
+  
+  
+  # Utworzenie większej palety do wykresu 
+  colourCount <- nrow(rank_combination_popularity)
+  getPalette <- colorRampPalette(brewer.pal(9, "Set1"))
+  
+  barplot(rank_combination_popularity$Ilosc, horiz = TRUE, las=1, cex.names = 0.8, names.arg = rank_combination_popularity$Ilosc
+          ,xlim = c(0,15000), col=getPalette(colourCount), main = "Popularność kombinacji", cex.main = 0.9)
+  legend("topright",legend = rank_combination_popularity[,1], cex = 1, fill=getPalette(colourCount))
+}
+
+png("plat_comb_popularity.png")
+F_combination_popularity(platinum_combination)
+dev.off()
+png("diam_comb_popularity.png")
+F_combination_popularity(diamond_combination)
+dev.off()
+png("master_comb_popularity.png")
+F_combination_popularity(master_combination)
+dev.off()
+png("grandmas_comb_popularity.png")
+F_combination_popularity(grandmaster_combination)
+dev.off()
+png("chall_comb_popularity.png")
+F_combination_popularity(challenger_combination)
+dev.off()
+
+F_combination_winrate <- function(combination_winrate){
+  rank_winrate_popularity_table <- sort(table(combination_winrate$Kombinacja[combination_winrate$Kombinacja != "Other" 
+                                                                             & combination_winrate$Miejsce == 1]),decreasing = TRUE)
+  
+  # Zamiana tabeli na ramke
+  rank_winrate_popularity <- as.data.frame(rank_winrate_popularity_table)
+  colnames(rank_winrate_popularity) <- c("Kombinacja","Ilosc")
+  
+  
+  # Utworzenie większej palety do wykresu 
+  colourCount <- nrow(rank_winrate_popularity)
+  getPalette <- colorRampPalette(brewer.pal(9, "Set1"))
+  
+  barplot(rank_winrate_popularity$Ilosc, horiz = TRUE, las=1, cex.names = 0.8, names.arg = rank_winrate_popularity$Ilosc
+          ,xlim = c(0,2000), col=getPalette(colourCount), main = "Popularność kombinacji", cex.main = 0.9)
+  legend("topright",legend = rank_winrate_popularity[,1], cex = 1, fill=getPalette(colourCount))
+}
+
+
+png("plat_winrate_comb.png")
+F_combination_winrate(platinum_combination)
+dev.off()
+png("diam_winrate_comb.png")
+F_combination_winrate(diamond_combination)
+dev.off()
+png("master_winrate_comb.png")
+F_combination_winrate(master_combination)
+dev.off()
+png("grandmas_winrate_comb.png")
+F_combination_winrate(grandmaster_combination)
+dev.off()
+png("chall_winrate_comb.png")
+F_combination_winrate(challenger_combination)
+dev.off()
+
+##################################
+# koniec zmian
+##################################
