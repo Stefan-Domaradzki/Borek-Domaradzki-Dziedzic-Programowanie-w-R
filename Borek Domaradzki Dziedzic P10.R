@@ -249,6 +249,47 @@ cat(srednia_minuty_grand,"min")
 srednia_sekundy_chelen <- mean(challenger_raw$gameDuration)
 srednia_minuty_chelen <- round(srednia_sekundy_chelen/60)
 cat(srednia_minuty_chelen,"min")
+#popularnosc bohaterow
+library(stringr)
+library(dplyr)
+library(tidyr)
+funkcja_ile_bohaterow <- function(ranga){
+  nazwa <- c("")
+  ilosc <- c("")
+  indeksy <- c("")
+  ilosc_bohaterow <- data.frame(nazwa,as.numeric(ilosc))
+for( i in c(1:80000))
+{
+  wiersz_do_czyszczenia <- ranga[i,8]
+  wiersz_do_czyszczenia <- str_split(wiersz_do_czyszczenia, '\\},' ,simplify = TRUE) # w przedstawionych wierszach usuwanie zbednych 
+  wiersz_do_czyszczenia <- str_replace(wiersz_do_czyszczenia, "'items':", "")
+  wiersz_do_czyszczenia <-str_replace(wiersz_do_czyszczenia, " 'star'", "")
+  wiersz_do_czyszczenia <-sub(".*'(.*)'.*", "\\1", wiersz_do_czyszczenia)
+  bohaterowie_wektor <- wiersz_do_czyszczenia
+  for( j in c(1:length(bohaterowie_wektor)))
+  {
+    if(any(bohaterowie_wektor[j]==ilosc_bohaterow$nazwa))
+    {
+      indeksy <- which(ilosc_bohaterow == bohaterowie_wektor[j], arr.ind=TRUE)
+      ilosc_bohaterow[indeksy[1,1],2] <- as.numeric(ilosc_bohaterow[indeksy[1,1],2]) + 1
+    }
+    else
+    {
+      wektor <- c(bohaterowie_wektor[j],1)
+      ilosc_bohaterow <- rbind(ilosc_bohaterow,wektor)
+    }
+  }
+}
+  return(ilosc_bohaterow)
+}
+ilosc_platinum <-funkcja_ile_bohaterow(platinum_raw)
+ilosc_diamond <-funkcja_ile_bohaterow(diamond_raw)
+ilosc_masterow <-funkcja_ile_bohaterow(master_raw)
+ilosc_grandmasterow <- funkcja_ile_bohaterow(grandmaster_raw)
+ilosc_chellengerow <- funkcja_ile_bohaterow(challenger_raw)
+#koniec
+
+
 #konice zmian
 
 ###################################################
