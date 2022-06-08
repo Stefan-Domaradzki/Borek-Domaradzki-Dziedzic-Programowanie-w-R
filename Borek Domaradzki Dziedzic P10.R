@@ -221,13 +221,35 @@ stars_mean_rank <- function(rank_champion_star){
 # 02.06.2022 lukasz
 # ilosc AFK-ow
 platinum_raw1 <- platinum_raw[(platinum_raw$combination)=="{}",]
-odsetek_afk <- nrow(platinum_raw1)/nrow(platinum_raw)
+odsetek_afk_plat <- nrow(platinum_raw1)/nrow(platinum_raw)
+diamond_raw1 <- diamond_raw[(diamond_raw$combination)=="{}",]
+odsetek_afk_diamo <- nrow(diamond_raw1)/nrow(diamond_raw)
+master_raw1 <- master_raw[(master_raw$combination)=="{}",]
+odsetek_afk_master <- nrow(master_raw1)/nrow(master_raw)
+grandmaster_raw1 <- grandmaster_raw[(grandmaster_raw$combination)=="{}",]
+odsetek_afk_grand <- nrow(grandmaster_raw1)/nrow(grandmaster_raw)
+challenger_raw1 <- challenger_raw[(challenger_raw$combination)=="{}",]
+odsetek_afk_chelen <- nrow(challenger_raw1)/nrow(challenger_raw)
 # srednia czasu trwania rozgrywki
-srednia_sekundy <- mean(platinum_raw$gameDuration)
-srednia_minuty <- round(srednia_sekundy/60) 
-cat(srednia_minuty,"min")
-#koniec zmian
-
+srednia_sekundy_plat <- mean(platinum_raw$gameDuration)
+srednia_minuty_plat <- round(srednia_sekundy_plat/60)
+cat(srednia_minuty_plat,"min")
+srednia_sekundy_diamo <- mean(diamond_raw$gameDuration)
+srednia_minuty_diamo <- round(srednia_sekundy_diamo/60)
+cat(srednia_minuty_diamo,"min")
+srednia_sekundy_master <- mean(master_raw$gameDuration)
+srednia_minuty_master <- round(srednia_sekundy_master/60)
+cat(srednia_minuty_master,"min")
+srednia_sekundy_master <- mean(master_raw$gameDuration)
+srednia_minuty_master <- round(srednia_sekundy_master/60)
+cat(srednia_minuty_master,"min")
+srednia_sekundy_grand <- mean(grandmaster_raw$gameDuration)
+srednia_minuty_grand <- round(srednia_sekundy_grand/60)
+cat(srednia_minuty_grand,"min")
+srednia_sekundy_chelen <- mean(challenger_raw$gameDuration)
+srednia_minuty_chelen <- round(srednia_sekundy_chelen/60)
+cat(srednia_minuty_chelen,"min")
+#konice zmian
 
 ###################################################
 # Pawel 06.06.2022
