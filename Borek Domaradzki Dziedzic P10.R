@@ -4,10 +4,12 @@ list.files()
 
 #install.packages("stringi")
 #install.packages("tidyverse")
-
+install.packages("writexl")
 
 library(stringi)
 library(tidyverse)
+library(writexl)
+
 
 # Importowanie i przygotowanie danych danych ----
 
@@ -301,36 +303,48 @@ master_kopia <- ilosc_masterow
 grandmaster_kopia <- ilosc_grandmasterow
 challenger_kopia <- ilosc_chellengerow
 
-colnames(plat_kopia) <- c("champions", "liczba")
-colnames(diamond_kopia) <- c("champions", "liczba")
-colnames(master_kopia) <- c("champions", "liczba")
-colnames(grandmaster_kopia) <- c("champions", "liczba")
-colnames(challenger_kopia) <- c("champions", "liczba")
-
-#rownames(plat_kopia) <- factor(plat_kopia$liczba)
-str(plat_kopia)
-?order()
-
-plat_kopia$liczba <- as.numeric(plat_kopia$liczba)
-diamond_kopia$liczba <- as.numeric(diamond_kopia$liczba)
-master_kopia$liczba <- as.numeric(master_kopia$liczba)
-grandmaster_kopia$liczba <- as.numeric(grandmaster_kopia$liczba)
-challenger_kopia$liczba <- as.numeric(challenger_kopia$liczba)
+colnames(plat_kopia) <- c("P_champions", "P_liczba")
+colnames(diamond_kopia) <- c("D_champions", "D_liczba")
+colnames(master_kopia) <- c("M_champions", "M_liczba")
+colnames(grandmaster_kopia) <- c("GM_champions", "GM_liczba")
+colnames(challenger_kopia) <- c("C_champions", "C_liczba")
 
 
-plat_kopia <- plat_kopia[order(plat_kopia$liczba, plat_kopia$champions, decreasing = T),]
-diamond_kopia <- diamond_kopia[order(diamond_kopia$liczba, diamond_kopia$champions, decreasing = T),]
-master_kopia <- plat_kopia[order(master_kopia$liczba, master_kopia$champions, decreasing = T),]
-grandmaster_kopia <- grandmaster_kopia[order(grandmaster_kopia$liczba, grandmaster_kopia$champions, decreasing = T),]
-challenger_kopia <- challenger_kopia[order(challenger_kopia$liczba, challenger_kopia$champions, decreasing = T),]
 
+plat_kopia$P_liczba <- as.numeric(plat_kopia$P_liczba)
+diamond_kopia$D_liczba <- as.numeric(diamond_kopia$D_liczba)
+master_kopia$M_liczba <- as.numeric(master_kopia$M_liczba)
+grandmaster_kopia$GM_liczba <- as.numeric(grandmaster_kopia$GM_liczba)
+challenger_kopia$C_liczba <- as.numeric(challenger_kopia$C_liczba)
+
+
+
+plat_kopia <- na.omit(plat_kopia)
+diamond_kopia <- na.omit(diamond_kopia)
+master_kopia <- na.omit(master_kopia)
+grandmaster_kopia <- na.omit(grandmaster_kopia)
+challenger_kopia <- na.omit(challenger_kopia)
+
+
+plat_kopia <- plat_kopia[order(plat_kopia$P_liczba , decreasing = T),]
+diamond_kopia <- diamond_kopia[order(diamond_kopia$`D liczba`, decreasing = T),]
+master_kopia <- plat_kopia[order(master_kopia$`M liczba` ,decreasing = T),]
+grandmaster_kopia <- grandmaster_kopia[order(grandmaster_kopia$`GM liczba` ,decreasing = T),]
+challenger_kopia <- challenger_kopia[order(challenger_kopia$`C liczba` ,decreasing = T),]
+  
 plat_kopia <- plat_kopia[c(1:20),]
 diamond_kopia <- diamond_kopia[c(1:20),]
 master_kopia <- master_kopia[c(1:20),]
 grandmaster_kopia <- grandmaster_kopia[c(1:20),]
 challenger_kopia <- challenger_kopia[c(1:20),]
 
+bohaterowie_razem <- cbind(plat_kopia, diamond_kopia)
 
+bohaterowie_razem <- cbind(bohaterowie_razem,master_kopia)
+bohaterowie_razem <- cbind(bohaterowie_razem, grandmaster_kopia)
+bohaterowie_razem <- cbind(bohaterowie_razem, challenger_kopia)
+
+write_xlsx(bohaterowie_razem,"bohaterowie razem.xlsx")
 
 #koniec
 
