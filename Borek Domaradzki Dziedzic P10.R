@@ -230,6 +230,8 @@ grandmaster_raw1 <- grandmaster_raw[(grandmaster_raw$combination)=="{}",]
 odsetek_afk_grand <- nrow(grandmaster_raw1)/nrow(grandmaster_raw)
 challenger_raw1 <- challenger_raw[(challenger_raw$combination)=="{}",]
 odsetek_afk_chelen <- nrow(challenger_raw1)/nrow(challenger_raw)
+
+
 # srednia czasu trwania rozgrywki
 srednia_sekundy_plat <- mean(platinum_raw$gameDuration)
 srednia_minuty_plat <- round(srednia_sekundy_plat/60)
@@ -249,6 +251,8 @@ cat(srednia_minuty_grand,"min")
 srednia_sekundy_chelen <- mean(challenger_raw$gameDuration)
 srednia_minuty_chelen <- round(srednia_sekundy_chelen/60)
 cat(srednia_minuty_chelen,"min")
+
+#-- nie dziala
 #popularnosc bohaterow
 library(stringr)
 library(dplyr)
@@ -258,7 +262,7 @@ funkcja_ile_bohaterow <- function(ranga){
   ilosc <- c("")
   indeksy <- c("")
   ilosc_bohaterow <- data.frame(nazwa,as.numeric(ilosc))
-for( i in c(1:80000))
+  for( i in c(1:nrow(ranga)))
 {
   wiersz_do_czyszczenia <- ranga[i,8]
   wiersz_do_czyszczenia <- str_split(wiersz_do_czyszczenia, '\\},' ,simplify = TRUE) # w przedstawionych wierszach usuwanie zbednych 
@@ -266,6 +270,7 @@ for( i in c(1:80000))
   wiersz_do_czyszczenia <-str_replace(wiersz_do_czyszczenia, " 'star'", "")
   wiersz_do_czyszczenia <-sub(".*'(.*)'.*", "\\1", wiersz_do_czyszczenia)
   bohaterowie_wektor <- wiersz_do_czyszczenia
+  
   for( j in c(1:length(bohaterowie_wektor)))
   {
     if(any(bohaterowie_wektor[j]==ilosc_bohaterow$nazwa))
@@ -287,6 +292,43 @@ ilosc_diamond <-funkcja_ile_bohaterow(diamond_raw)
 ilosc_masterow <-funkcja_ile_bohaterow(master_raw)
 ilosc_grandmasterow <- funkcja_ile_bohaterow(grandmaster_raw)
 ilosc_chellengerow <- funkcja_ile_bohaterow(challenger_raw)
+
+
+
+plat_kopia <- ilosc_platinum
+diamond_kopia <- ilosc_diamond
+master_kopia <- ilosc_masterow
+grandmaster_kopia <- ilosc_grandmasterow
+challenger_kopia <- ilosc_chellengerow
+
+colnames(plat_kopia) <- c("champions", "liczba")
+colnames(diamond_kopia) <- c("champions", "liczba")
+colnames(master_kopia) <- c("champions", "liczba")
+colnames(grandmaster_kopia) <- c("champions", "liczba")
+colnames(challenger_kopia) <- c("champions", "liczba")
+
+#rownames(plat_kopia) <- factor(plat_kopia$liczba)
+str(plat_kopia)
+?order()
+
+plat_kopia$liczba <- as.numeric(plat_kopia$liczba)
+diamond_kopia$liczba <- as.numeric(diamond_kopia$liczba)
+master_kopia$liczba <- as.numeric(master_kopia$liczba)
+grandmaster_kopia$liczba <- as.numeric(grandmaster_kopia$liczba)
+challenger_kopia$liczba <- as.numeric(challenger_kopia$liczba)
+
+
+plat_kopia <- plat_kopia[order(plat_kopia$liczba, plat_kopia$champions, decreasing = T),]
+diamond_kopia <- diamond_kopia[order(diamond_kopia$liczba, diamond_kopia$champions, decreasing = T),]
+master_kopia <- plat_kopia[order(master_kopia$liczba, master_kopia$champions, decreasing = T),]
+grandmaster_kopia <- grandmaster_kopia[order(grandmaster_kopia$liczba, grandmaster_kopia$champions, decreasing = T),]
+challenger_kopia <- challenger_kopia[order(challenger_kopia$liczba, challenger_kopia$champions, decreasing = T),]
+
+ilosc_platinum <- as.data.frame(ilosc_platinum[c(1:53), ])
+
+plat_kopia <- sort(plat_kopia)
+
+
 #koniec
 
 
