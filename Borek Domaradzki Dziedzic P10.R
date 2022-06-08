@@ -324,9 +324,12 @@ master_kopia <- plat_kopia[order(master_kopia$liczba, master_kopia$champions, de
 grandmaster_kopia <- grandmaster_kopia[order(grandmaster_kopia$liczba, grandmaster_kopia$champions, decreasing = T),]
 challenger_kopia <- challenger_kopia[order(challenger_kopia$liczba, challenger_kopia$champions, decreasing = T),]
 
-ilosc_platinum <- as.data.frame(ilosc_platinum[c(1:53), ])
+plat_kopia <- plat_kopia[c(1:20),]
+diamond_kopia <- diamond_kopia[c(1:20),]
+master_kopia <- master_kopia[c(1:20),]
+grandmaster_kopia <- grandmaster_kopia[c(1:20),]
+challenger_kopia <- challenger_kopia[c(1:20),]
 
-plat_kopia <- sort(plat_kopia)
 
 
 #koniec
